@@ -12,14 +12,16 @@ import faviconImage from "figma:asset/082fe4e6830fa54464c4195a81a1641fd524c476.p
 export default function App() {
   // Set favicon
   useEffect(() => {
-    const link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-    link.type = 'image/png';
-    link.rel = 'icon';
+    const link =
+      document.querySelector("link[rel*='icon']") ||
+      document.createElement("link");
+    link.type = "image/png";
+    link.rel = "icon";
     link.href = faviconImage;
-    document.getElementsByTagName('head')[0].appendChild(link);
-    
+    document.getElementsByTagName("head")[0].appendChild(link);
+
     // Set page title
-    document.title = "Walter Valdez - Asesor de Seguros en Hermosillo, Sonora";
+    document.title = "Walter Valdez - Consultor Patrimonial ";
   }, []);
 
   return (

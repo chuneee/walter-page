@@ -35,7 +35,7 @@ export function Contact() {
   // Inicializar EmailJS
   useEffect(() => {
     // Reemplaza con tu Public Key de EmailJS
-    emailjs.init("7ZMDfS9YQ6OoLEUUu");
+    emailjs.init("CcIQilsmRLk3au3B_");
   }, []);
 
   const contactInfo = [
@@ -75,8 +75,8 @@ export function Contact() {
 
       // Enviar email usando EmailJS
       const result = await emailjs.send(
-        "service_h4p32ws", // Reemplaza con tu Service ID
-        "template_rgoxknn", // Reemplaza con tu Template ID
+        "service_wjxh68j", // Reemplaza con tu Service ID
+        "template_tyz2q2o", // Reemplaza con tu Template ID
         {
           name: data.name,
           email: data.email,

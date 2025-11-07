@@ -1,4 +1,4 @@
-import { Instagram, Mail, Phone, Shield } from "lucide-react";
+import { Instagram, Mail, MapPin, Phone, Shield } from "lucide-react";
 import { motion } from "motion/react";
 import logo from "figma:asset/b78ac8ff2ad6bc40cbd2d4ea1f4f26ef70ca0e9b.png";
 
@@ -103,6 +103,15 @@ export function Footer() {
                 className="text-white/70 hover:text-[#ffa400] transition-colors duration-300 text-sm block"
               >
                 +52 622 855 9245
+              </a>
+              <a
+                href="https://maps.app.goo.gl/5md3eb91C4WedFRj8"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/80 hover:text-[#ffa400] transition-all duration-300 text-sm flex items-start gap-2 group -mx-2 px-2 py-1.5 rounded-lg hover:bg-white/5"
+              >
+                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#ffa400] group-hover:scale-110 transition-transform" />
+                <span style={{ fontWeight: 500 }}>Negoplaza, Boulevard Solidaridad y Colosio Edificio B, Piso 3, 83200 Hermosillo, Son.</span>
               </a>
               <p className="text-white/70 text-sm">
                 Atención remota en toda la República

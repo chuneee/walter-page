@@ -37,14 +37,20 @@ export function AboutMe() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="max-w-4xl mx-auto text-center space-y-6 mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#103595]/5 rounded-full mb-4">
-            <Award className="w-4 h-4 text-[#103595]" />
-            <span className="text-sm text-[#103595]" style={{ fontWeight: 600 }}>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#ff6b0c]/5 rounded-full mb-4">
+            <Award className="w-4 h-4 text-[#ff6b0c]" />
+            <span
+              className="text-sm text-[#ff6b0c]"
+              style={{ fontWeight: 600 }}
+            >
               Agente de seguros certificado
             </span>
           </div>
 
-          <h2 className="text-3xl md:text-4xl text-[#103595]" style={{ fontWeight: 700, letterSpacing: '-0.01em' }}>
+          <h2
+            className="text-3xl md:text-4xl text-[#103595]"
+            style={{ fontWeight: 700, letterSpacing: "-0.01em" }}
+          >
             Walter Valdez
           </h2>
 
@@ -54,19 +60,29 @@ export function AboutMe() {
 
           <div className="max-w-3xl mx-auto">
             <p className="text-lg text-gray-700 leading-relaxed">
-              Acompañar a personas y familias a construir
-              seguridad y libertad financiera, protegiendo lo
-              más valioso:{" "}
-              <span className="text-[#103595]" style={{ fontWeight: 700 }}>su vida</span>,{" "}
-              <span className="text-[#ff6b0c]" style={{ fontWeight: 700 }}>su salud</span> y{" "}
-              <span className="text-[#103595]" style={{ fontWeight: 700 }}>su futuro</span>
+              Mi mision es acompañar a personas y familias a construir seguridad
+              y libertad financiera, protegiendo lo más valioso:{" "}
+              <span className="text-[#ff6b0c]" style={{ fontWeight: 700 }}>
+                su vida
+              </span>
+              ,{" "}
+              <span className="text-[#ff6b0c]" style={{ fontWeight: 700 }}>
+                su salud
+              </span>{" "}
+              y{" "}
+              <span className="text-[#ff6b0c]" style={{ fontWeight: 700 }}>
+                su futuro
+              </span>
             </p>
           </div>
         </div>
 
         {/* Insurance Companies Section - Infinite Carousel */}
         <div className="pt-12 border-t border-gray-200">
-          <p className="text-center text-sm uppercase tracking-wider text-gray-500 mb-10" style={{ fontWeight: 600 }}>
+          <p
+            className="text-center text-sm uppercase tracking-wider text-gray-500 mb-10"
+            style={{ fontWeight: 600 }}
+          >
             Trabajo con las principales aseguradoras del país
           </p>
 
@@ -96,7 +112,7 @@ export function AboutMe() {
                 <div
                   key={`original-${index}`}
                   className="flex-shrink-0 w-48 bg-white rounded-2xl border-2 border-gray-100 p-6
-                    hover:border-[#103595]/20 hover:shadow-xl 
+                    hover:border-[#103595]/20 hover:shadow-xl
                     transition-all duration-300
                     flex items-center justify-center h-32"
                 >
@@ -107,13 +123,13 @@ export function AboutMe() {
                   />
                 </div>
               ))}
-              
+
               {/* Duplicated logos for seamless loop */}
               {insuranceCompanies.map((company, index) => (
                 <div
                   key={`duplicate-${index}`}
                   className="flex-shrink-0 w-48 bg-white rounded-2xl border-2 border-gray-100 p-6
-                    hover:border-[#103595]/20 hover:shadow-xl 
+                    hover:border-[#103595]/20 hover:shadow-xl
                     transition-all duration-300
                     flex items-center justify-center h-32"
                 >
