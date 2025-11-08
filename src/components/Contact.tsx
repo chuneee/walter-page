@@ -181,7 +181,7 @@ export function Contact() {
               style={{ fontWeight: 700 }}
             >
               <Calendar className="w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
-              <span className="text-xl">Agenda tu cita gratuita</span>
+              <span className="text-xl">Agenda tu asesoría gratuita</span>
             </a>
           </motion.div>
 
