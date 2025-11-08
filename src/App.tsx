@@ -19,9 +19,6 @@ export default function App() {
     link.rel = "icon";
     link.href = faviconImage;
     document.getElementsByTagName("head")[0].appendChild(link);
-
-    // Set page title
-    document.title = "Walter Valdez - Consultor Patrimonial ";
   }, []);
 
   return (
