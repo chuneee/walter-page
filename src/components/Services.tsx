@@ -28,12 +28,12 @@ export function Services() {
     },
     {
       icon: TrendingUp,
-      title: "Fondos de Inversión",
-      description: "Aprende a generar riqueza",
+      title: "Fondos Indexados",
+      description: "Aprende a invertir en el S&P500 y Nasdaq 100",
       features: [
-        "Planeaciones financiera a mediano y largo plazo",
-        "Inversiones en más de 19 portafolios",
-        "Aprende a invertir en fondos como el SP500 y NASDAQ",
+        "Invierte en empresas como Nvidia, Apple, Tesla o Google",
+        "Más de 19 portafolios de inversión",
+        "Pasa de “adivinar” a invertir como lo hace la gente que gana en serio",
       ],
       gradient: "from-[#ff6b0c] to-[#ff4513]",
     },
@@ -114,9 +114,7 @@ export function Services() {
             }}
           >
             Soluciones a{" "}
-            <span style={{ fontWeight: 800, color: "#ff6b0c" }}>
-              tu medida
-            </span>
+            <span style={{ fontWeight: 800, color: "#ff6b0c" }}>tu medida</span>
           </h2>
 
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -184,10 +182,7 @@ export function Services() {
                   {/* Features */}
                   <ul className="space-y-3">
                     {service.features.map((feature, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-start gap-3"
-                      >
+                      <li key={idx} className="flex items-start gap-3">
                         <CheckCircle2 className="w-5 h-5 text-[#ff6b0c] flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700 text-sm leading-relaxed">
                           {feature}
@@ -268,10 +263,7 @@ export function Services() {
                   {/* Features */}
                   <ul className="space-y-3">
                     {service.features.map((feature, idx) => (
-                      <li
-                        key={idx}
-                        className="flex items-start gap-3"
-                      >
+                      <li key={idx} className="flex items-start gap-3">
                         <CheckCircle2 className="w-5 h-5 text-[#ff6b0c] flex-shrink-0 mt-0.5" />
                         <span className="text-gray-700 text-sm leading-relaxed">
                           {feature}
