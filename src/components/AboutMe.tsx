@@ -60,7 +60,7 @@ export function AboutMe() {
 
           <div className="max-w-3xl mx-auto">
             <p className="text-lg text-gray-700 leading-relaxed">
-              Mi mision es acompañar a personas y familias a construir seguridad
+              Mi misión es acompañar a personas y familias a construir seguridad
               y libertad financiera, protegiendo lo más valioso:{" "}
               <span className="text-[#ff6b0c]" style={{ fontWeight: 700 }}>
                 su vida
