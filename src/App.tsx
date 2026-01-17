@@ -6,6 +6,7 @@ import { Services } from "./components/Services";
 import { WhyChooseMe } from "./components/WhyChooseMe";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
+import { SavingsCalculator } from "./components/SavingsCalculator";
 import { Toaster } from "sonner@2.0.3";
 import faviconImage from "figma:asset/082fe4e6830fa54464c4195a81a1641fd524c476.png";
 
@@ -34,9 +35,15 @@ export default function App() {
       <section id="servicios">
         <Services />
       </section>
+
+      <section id="simulador">
+        <SavingsCalculator />
+      </section>
+
       <section id="beneficios">
         <WhyChooseMe />
       </section>
+
       <section id="contacto">
         <Contact />
       </section>

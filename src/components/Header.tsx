@@ -12,6 +12,7 @@ export function Header() {
     { label: "Inicio", href: "#inicio" },
     { label: "Sobre Mí", href: "#sobre-mi" },
     { label: "Servicios", href: "#servicios" },
+    { label: "Calculadora de Retiro", href: "#simulador" },
     { label: "Por Qué Elegirme", href: "#beneficios" },
     { label: "Contacto", href: "#contacto" },
   ];
@@ -25,13 +26,16 @@ export function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     e.preventDefault();
     setIsMobileMenuOpen(false);
-    
+
     const targetId = href.replace("#", "");
     const element = document.getElementById(targetId);
-    
+
     if (element) {
       const offset = 80; // Header height
       const elementPosition = element.getBoundingClientRect().top;
@@ -59,9 +63,9 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between h-20">
             {/* Logo - Smooth transition between white and color versions */}
-            <a 
-              href="#inicio" 
-              onClick={(e) => handleNavClick(e, "#inicio")} 
+            <a
+              href="#inicio"
+              onClick={(e) => handleNavClick(e, "#inicio")}
               className="relative z-50 h-10 md:h-12"
             >
               <AnimatePresence mode="wait">

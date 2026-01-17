@@ -8,15 +8,18 @@ export function Hero() {
     <div className="relative min-h-screen bg-gradient-to-br from-[#103595] via-[#0d2a6e] to-[#103595] overflow-hidden">
       {/* Subtle geometric pattern overlay */}
       <div className="absolute inset-0 opacity-[0.03]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }}></div>
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, white 1px, transparent 0)`,
+            backgroundSize: "40px 40px",
+          }}
+        ></div>
       </div>
 
       {/* Subtle orange accent - top right */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gradient-to-bl from-[#ff6b0c]/20 via-transparent to-transparent blur-3xl"></div>
-      
+
       {/* Subtle orange accent - bottom left */}
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-gradient-to-tr from-[#ffa400]/10 via-transparent to-transparent blur-2xl"></div>
 
@@ -26,37 +29,71 @@ export function Hero() {
           <div className="text-white space-y-6 md:space-y-8">
             {/* Trust badges */}
             <div className="flex flex-wrap gap-3">
-              <Badge variant="secondary" className="bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 px-3 py-1">
+              <Badge
+                variant="secondary"
+                className="bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 px-3 py-1"
+              >
                 <Award className="w-3 h-3 mr-1.5" />
                 Certificado
               </Badge>
-              <Badge variant="secondary" className="bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 px-3 py-1">
+              <Badge
+                variant="secondary"
+                className="bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 px-3 py-1"
+              >
                 <Shield className="w-3 h-3 mr-1.5" />
                 +10 Aseguradoras
               </Badge>
-              <Badge variant="secondary" className="bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 px-3 py-1">
+              <Badge
+                variant="secondary"
+                className="bg-white/10 backdrop-blur-sm text-white border-white/20 hover:bg-white/20 px-3 py-1"
+              >
                 <CheckCircle2 className="w-3 h-3 mr-1.5" />
                 100% Personalizado
               </Badge>
             </div>
 
-            <h1 className="text-3xl md:text-4xl lg:text-5xl leading-tight" style={{ fontWeight: 500, letterSpacing: '-0.01em' }}>
-              Te acompaño paso a paso para <span style={{ fontWeight: 800 }}>proteger lo que más valoras</span> y planear tu futuro con <span style={{ fontWeight: 800 }}>claridad</span>.
+            <h1
+              className="text-3xl md:text-4xl lg:text-5xl leading-tight"
+              style={{ fontWeight: 500, letterSpacing: "-0.01em" }}
+            >
+              Te acompaño paso a paso para{" "}
+              <span style={{ fontWeight: 800 }}>
+                proteger lo que más valoras
+              </span>{" "}
+              y planear tu futuro con{" "}
+              <span style={{ fontWeight: 800 }}>claridad</span>.
             </h1>
-            
+
             <p className="text-lg md:text-xl text-white/90 leading-relaxed max-w-xl">
-              Asesoría personalizada en seguros de gastos médicos mayores, retiro y ahorro, e inversiones, diseñada para darte tranquilidad y claridad financiera en cada etapa de tu vida.
+              Asesoría personalizada en seguros de gastos médicos mayores,
+              retiro y ahorro, e inversiones, diseñada para darte tranquilidad y
+              claridad financiera en cada etapa de tu vida.
             </p>
-            
+
             <div className="pt-4">
-              <a href="https://calendly.com/waltervaldezconsultor/asesoria-personalizada-1" target="_blank" rel="noopener noreferrer">
-                <Button 
-                  size="lg" 
-                  className="bg-gradient-to-r from-[#ff6b0c] to-[#ff4513] hover:from-[#ff4513] hover:to-[#ff6b0c] text-white px-10 py-6 text-lg rounded-full shadow-2xl shadow-orange-500/30 transition-all duration-300 hover:scale-105 hover:shadow-orange-500/50"
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href="https://calendly.com/waltervaldezconsultor/asesoria-personalizada-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  Agenda tu asesoría gratuita
-                </Button>
-              </a>
+                  <Button
+                    size="lg"
+                    className="w-full sm:w-auto bg-gradient-to-r from-[#ff6b0c] to-[#ff4513] hover:from-[#ff4513] hover:to-[#ff6b0c] text-white px-10 py-6 text-lg rounded-full shadow-2xl shadow-orange-500/30 transition-all duration-300 hover:scale-105 hover:shadow-orange-500/50"
+                  >
+                    Agenda tu asesoría gratuita
+                  </Button>
+                </a>
+                <a href="#simulador">
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="w-full sm:w-auto bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white hover:bg-white hover:text-[#103595] px-10 py-6 text-lg rounded-full shadow-xl transition-all duration-300 hover:scale-105"
+                  >
+                    Calculadora de retiro
+                  </Button>
+                </a>
+              </div>
             </div>
 
             {/* Quick benefits */}
@@ -87,12 +124,12 @@ export function Hero() {
             <div className="relative">
               {/* Elegant shadow backdrop */}
               <div className="absolute -inset-4 bg-gradient-to-br from-[#ffa400]/30 to-[#ff4513]/30 rounded-3xl blur-2xl"></div>
-              
+
               {/* Photo container */}
               <div className="relative bg-white p-2 rounded-3xl shadow-2xl">
-                <img 
-                  src={advisorPhoto} 
-                  alt="Walter Valdez - Asesor Profesional" 
+                <img
+                  src={advisorPhoto}
+                  alt="Walter Valdez - Asesor Profesional"
                   className="rounded-2xl w-full max-w-md object-cover"
                 />
               </div>
@@ -104,7 +141,9 @@ export function Hero() {
                     <Shield className="w-6 h-6 text-white" />
                   </div>
                   <div>
-                    <p className="text-[#103595] text-xs">Familias protegidas</p>
+                    <p className="text-[#103595] text-xs">
+                      Familias protegidas
+                    </p>
                   </div>
                 </div>
               </div>
