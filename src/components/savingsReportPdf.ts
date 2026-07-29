@@ -1,5 +1,6 @@
 import { jsPDF } from "jspdf";
 import logoColor from "../assets/0f2bacd61666436b2144d7fb5694974b05d285a1.png";
+import { buildWhatsAppUrl } from "./whatsappLink";
 
 export interface SavingsReportData {
   currentAge: number;
@@ -254,7 +255,7 @@ export async function buildSavingsReportPdf(
     ["Capital proyectado", currency.format(data.amountAtPayout)],
   ];
 
-  const scenarioRowH = 23;
+  const scenarioRowH = 22;
   scenarioRows.forEach(([label, value], i) => {
     if (i % 2 === 1) {
       doc.setFillColor(ROW_ALT);
@@ -281,6 +282,43 @@ export async function buildSavingsReportPdf(
     "* Proyección ilustrativa. El rendimiento real puede variar. No constituye garantía de rendimiento ni promesa de pago.",
     M,
     y + 16
+  );
+  y += 34;
+
+  // ===== Botón: pedir asesoría por WhatsApp =====
+  const waUrl = buildWhatsAppUrl({
+    currentAge: data.currentAge,
+    monthlyContribution: data.monthlyContribution,
+    savingYears: data.savingYears,
+    endContribAge: data.endContribAge,
+    payoutAge: data.payoutAge,
+    totalContribution: data.totalContribution,
+    growthAtPayout: data.growthAtPayout,
+    amountAtPayout: data.amountAtPayout,
+  });
+
+  const btnW = 280;
+  const btnH = 38;
+  const btnX = M + (W - btnW) / 2;
+  doc.setFillColor("#25d366");
+  doc.roundedRect(btnX, y, btnW, btnH, 19, 19, "F");
+
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(12);
+  doc.setTextColor("#ffffff");
+  doc.text("Pedir asesoría por WhatsApp", btnX + btnW / 2, y + 24, {
+    align: "center",
+  });
+  doc.link(btnX, y, btnW, btnH, { url: waUrl });
+
+  doc.setFont("helvetica", "normal");
+  doc.setFontSize(8.5);
+  doc.setTextColor(GRAY_TEXT);
+  doc.text(
+    "Toca el botón para escribirme con tu simulación · +52 662 395 7332",
+    M + W / 2,
+    y + btnH + 14,
+    { align: "center" }
   );
 
   return doc;

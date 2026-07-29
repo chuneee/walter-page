@@ -12,6 +12,7 @@ import {
   Minus,
   Plus,
 } from "lucide-react";
+import { buildWhatsAppUrl } from "./whatsappLink";
 
 const monthlyOptions = [2000, 3000, 4000, 5000, 10000, 15000];
 const yearsOptions = [10, 15, 20, 25];
@@ -529,19 +530,16 @@ export function SavingsCalculator() {
               </button>
 
               <a
-                href={`https://wa.me/526623957332?text=${encodeURIComponent(
-                  `¡Hola Walter! Acabo de usar el simulador de ahorro de tu página y me gustaría recibir asesoría.\n\n` +
-                    `Mi escenario:\n` +
-                    `• Edad actual: ${ageNow} años\n` +
-                    `• Aporte mensual: ${currencyFormatter.format(monthlyContribution)}\n` +
-                    `• Años de ahorro: ${savingYears} (hasta los ${endContribAge})\n` +
-                    `• Edad de entrega: ${payoutAge} años\n\n` +
-                    `Mi proyección:\n` +
-                    `• Aporte total: ${currencyFormatter.format(totalContribution)}\n` +
-                    `• Rendimiento estimado: ${currencyFormatter.format(growthAtPayout)}\n` +
-                    `• Capital proyectado a los ${payoutAge}: ${currencyFormatter.format(amountAtPayout)}\n\n` +
-                    `¿Me ayudas a armar un plan?`
-                )}`}
+                href={buildWhatsAppUrl({
+                  currentAge: ageNow,
+                  monthlyContribution,
+                  savingYears,
+                  endContribAge,
+                  payoutAge,
+                  totalContribution,
+                  growthAtPayout,
+                  amountAtPayout,
+                })}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-3 rounded-2xl px-6 py-5 text-lg text-white transition-all duration-200 hover:scale-[1.02]"
