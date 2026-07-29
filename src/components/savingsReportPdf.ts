@@ -108,7 +108,7 @@ export async function buildSavingsReportPdf(
   doc.setFontSize(9);
   doc.setTextColor("#dbe2f5");
   const cardNote = doc.splitTextToSize(
-    `Capital proyectado a los ${data.payoutAge} años bajo escenario ilustrativo. Aportas hasta los ${data.endContribAge} años y la aseguradora administra ${data.adminYears} años más. No constituye garantía de rendimiento ni promesa de pago.`,
+    `Capital proyectado a los ${data.payoutAge} años bajo escenario ilustrativo. Aportas hasta los ${data.endContribAge} años y la aseguradora administra ${data.adminYears} años más.`,
     W - 44
   );
   doc.text(cardNote, M + 22, y + 76);
