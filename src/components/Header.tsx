@@ -13,7 +13,7 @@ export function Header() {
     { label: "Sobre Mí", href: "#sobre-mi" },
     { label: "Servicios", href: "#servicios" },
     { label: "Calculadora de Retiro", href: "#simulador" },
-    { label: "Por Qué Elegirme", href: "#beneficios" },
+    { label: "Beneficios", href: "#beneficios" },
     { label: "Contacto", href: "#contacto" },
   ];
 

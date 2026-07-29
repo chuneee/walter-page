@@ -24,7 +24,7 @@ export function Footer() {
   const quickLinks = [
     { label: "Servicios", href: "#servicios" },
     { label: "Sobre Mí", href: "#sobre-mi" },
-    { label: "Por Qué Elegirme", href: "#beneficios" },
+    { label: "Beneficios", href: "#beneficios" },
     { label: "Contacto", href: "#contacto" }
   ];
 
