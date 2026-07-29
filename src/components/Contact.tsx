@@ -47,8 +47,8 @@ export function Contact() {
     },
     {
       icon: Phone,
-      text: "+52 622 855 9245",
-      href: "https://wa.me/526228559245",
+      text: "+52 662 395 7332",
+      href: "https://wa.me/526623957332",
       label: "WhatsApp",
     },
     {

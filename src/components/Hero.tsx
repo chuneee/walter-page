@@ -1,6 +1,6 @@
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
-import advisorPhoto from "figma:asset/ec4ae3d8b2f89a24ae5c5aa7cb5dec88acd34da0.png";
+import advisorPhoto from "../assets/hero.jpeg";
 import { Shield, Clock, Award, CheckCircle2 } from "lucide-react";
 
 export function Hero() {

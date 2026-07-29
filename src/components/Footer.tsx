@@ -16,7 +16,7 @@ export function Footer() {
     },
     {
       icon: Phone,
-      href: "https://wa.me/526228559245",
+      href: "https://wa.me/526623957332",
       label: "WhatsApp"
     }
   ];
@@ -99,10 +99,10 @@ export function Footer() {
                 waltervaldez.consultor@gmail.com
               </a>
               <a
-                href="https://wa.me/526228559245"
+                href="https://wa.me/526623957332"
                 className="text-white/70 hover:text-[#ffa400] transition-colors duration-300 text-sm block"
               >
-                +52 622 855 9245
+                +52 662 395 7332
               </a>
               <a
                 href="https://maps.app.goo.gl/5md3eb91C4WedFRj8"

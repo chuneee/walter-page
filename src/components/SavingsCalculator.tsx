@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { motion } from "motion/react";
 import {
   Calculator,
+  Download,
   PiggyBank,
   Target,
   TrendingUp,
@@ -12,7 +13,7 @@ import {
 } from "lucide-react";
 
 const monthlyOptions = [2000, 3000, 4000, 5000, 10000, 15000];
-const yearsOptions = [5, 10, 15, 20, 25, 30];
+const yearsOptions = [10, 15, 20, 25];
 const payoutAgeOptions = [60, 65] as const;
 
 const ANNUAL_RETURN = 10;
@@ -498,6 +499,33 @@ export function SavingsCalculator() {
                   </p>
                 </div>
               </div>
+
+              <button
+                type="button"
+                onClick={async () => {
+                  const { generateSavingsReportPdf } = await import(
+                    "./savingsReportPdf"
+                  );
+                  generateSavingsReportPdf({
+                    currentAge: ageNow,
+                    savingYears,
+                    monthlyContribution,
+                    payoutAge,
+                    endContribAge,
+                    adminYears,
+                    totalContribution,
+                    amountAtEndOfContrib,
+                    amountAtPayout,
+                    growthAtPayout,
+                    annualReturn: ANNUAL_RETURN,
+                  });
+                }}
+                className="flex w-full items-center justify-center gap-3 rounded-2xl bg-gradient-to-br from-[#ff6b0c] to-[#ff4513] px-6 py-5 text-lg text-white shadow-lg shadow-orange-500/25 transition-all duration-200 hover:scale-[1.02] hover:shadow-xl hover:shadow-orange-500/30"
+                style={{ fontWeight: 700 }}
+              >
+                <Download className="h-6 w-6" />
+                Descargar simulación en PDF
+              </button>
 
               <p className="text-xs text-gray-500" style={{ fontWeight: 600 }}>
                 * Esta es una proyección estimada. El rendimiento real puede
