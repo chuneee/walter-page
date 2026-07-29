@@ -3,6 +3,7 @@ import { motion } from "motion/react";
 import {
   Calculator,
   Download,
+  MessageCircle,
   PiggyBank,
   Target,
   TrendingUp,
@@ -526,6 +527,39 @@ export function SavingsCalculator() {
                 <Download className="h-6 w-6" />
                 Descargar simulación en PDF
               </button>
+
+              <a
+                href={`https://wa.me/526623957332?text=${encodeURIComponent(
+                  `¡Hola Walter! Acabo de usar el simulador de ahorro de tu página y me gustaría recibir asesoría.\n\n` +
+                    `Mi escenario:\n` +
+                    `• Edad actual: ${ageNow} años\n` +
+                    `• Aporte mensual: ${currencyFormatter.format(monthlyContribution)}\n` +
+                    `• Años de ahorro: ${savingYears} (hasta los ${endContribAge})\n` +
+                    `• Edad de entrega: ${payoutAge} años\n\n` +
+                    `Mi proyección:\n` +
+                    `• Aporte total: ${currencyFormatter.format(totalContribution)}\n` +
+                    `• Rendimiento estimado: ${currencyFormatter.format(growthAtPayout)}\n` +
+                    `• Capital proyectado a los ${payoutAge}: ${currencyFormatter.format(amountAtPayout)}\n\n` +
+                    `¿Me ayudas a armar un plan?`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-3 rounded-2xl px-6 py-5 text-lg text-white transition-all duration-200 hover:scale-[1.02]"
+                style={{
+                  fontWeight: 700,
+                  backgroundColor: "#25d366",
+                  boxShadow: "0 10px 25px -5px rgba(37, 211, 102, 0.35)",
+                }}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#1fb958")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.backgroundColor = "#25d366")
+                }
+              >
+                <MessageCircle className="h-6 w-6" />
+                Pedir asesoría por WhatsApp
+              </a>
 
               <p className="text-xs text-gray-500" style={{ fontWeight: 600 }}>
                 * Esta es una proyección estimada. El rendimiento real puede
