@@ -15,6 +15,7 @@ import { Label } from "./ui/label";
 import { toast } from "sonner@2.0.3";
 import { useState, useEffect } from "react";
 import emailjs from "@emailjs/browser";
+import { trackFbEvent } from "./fbPixel";
 
 interface ContactFormData {
   name: string;
@@ -88,6 +89,10 @@ export function Contact() {
       );
 
       console.log("Email enviado exitosamente:", result);
+
+      trackFbEvent("Contact", {
+        content_name: "Formulario de contacto",
+      });
 
       toast.success("¡Mensaje enviado con éxito!", {
         description: "Te contactaré pronto para ayudarte.",

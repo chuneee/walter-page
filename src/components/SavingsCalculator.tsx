@@ -13,6 +13,7 @@ import {
   Plus,
 } from "lucide-react";
 import { buildWhatsAppUrl } from "./whatsappLink";
+import { trackFbCustomEvent, trackFbEvent } from "./fbPixel";
 
 const monthlyOptions = [2000, 3000, 4000, 5000, 10000, 15000];
 const yearsOptions = [10, 15, 20, 25];
@@ -505,6 +506,12 @@ export function SavingsCalculator() {
               <button
                 type="button"
                 onClick={async () => {
+                  trackFbCustomEvent("DescargarSimulacionPDF", {
+                    edad_actual: ageNow,
+                    anos_ahorro: savingYears,
+                    aporte_mensual: monthlyContribution,
+                    edad_entrega: payoutAge,
+                  });
                   const { generateSavingsReportPdf } = await import(
                     "./savingsReportPdf"
                   );
@@ -542,6 +549,11 @@ export function SavingsCalculator() {
                 })}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackFbEvent("Lead", {
+                    content_name: "Asesoría por WhatsApp - Simulador",
+                  })
+                }
                 className="flex w-full items-center justify-center gap-3 rounded-2xl px-6 py-5 text-lg text-white transition-all duration-200 hover:scale-[1.02]"
                 style={{
                   fontWeight: 700,
