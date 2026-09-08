@@ -50,45 +50,59 @@ function slug(text: string) {
     .toLowerCase();
 }
 
-export type PdfDeliveryResult = "shared" | "downloaded" | "cancelled";
-
-function isMobileDevice() {
-  return (
-    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-    (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent))
-  );
+export interface GeneratedPdf {
+  blob: Blob;
+  url: string;
+  filename: string;
+  nombre: string;
 }
 
-// En celular usamos la hoja nativa de compartir (WhatsApp, Archivos, etc.):
-// descargar un blob desde JavaScript en iOS abre el PDF en una pestaña con
-// una URL "blob:" que luego se cuela como texto al compartirlo.
-export async function generateRetirementReportPdf(
+export async function createRetirementReportPdf(
   d: RetirementResults
-): Promise<PdfDeliveryResult> {
+): Promise<GeneratedPdf> {
   const doc = await buildRetirementReportPdf(d);
-  const filename = `proyeccion-retiro-${slug(d.nombre) || "cliente"}.pdf`;
+  const blob = doc.output("blob");
+  return {
+    blob,
+    url: URL.createObjectURL(blob),
+    filename: `proyeccion-retiro-${slug(d.nombre) || "cliente"}.pdf`,
+    nombre: d.nombre,
+  };
+}
 
-  if (isMobileDevice() && typeof navigator.share === "function") {
-    const file = new File([doc.output("blob")], filename, {
-      type: "application/pdf",
+export function downloadPdf(pdf: GeneratedPdf) {
+  const a = document.createElement("a");
+  a.href = pdf.url;
+  a.download = pdf.filename;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
+
+export function canSharePdf(pdf: GeneratedPdf) {
+  if (typeof navigator.share !== "function") return false;
+  const file = new File([pdf.blob], pdf.filename, { type: "application/pdf" });
+  return !navigator.canShare || navigator.canShare({ files: [file] });
+}
+
+// Hoja nativa de compartir (WhatsApp, Archivos, correo...). Debe llamarse
+// directamente desde un toque del usuario para que iOS la permita.
+export async function sharePdf(
+  pdf: GeneratedPdf
+): Promise<"shared" | "cancelled" | "failed"> {
+  const file = new File([pdf.blob], pdf.filename, { type: "application/pdf" });
+  try {
+    await navigator.share({
+      files: [file],
+      title: "Proyección de retiro",
+      text: `Proyección de retiro de ${pdf.nombre || "cliente"}`,
     });
-    if (!navigator.canShare || navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({
-          files: [file],
-          title: "Proyección de retiro",
-          text: `Proyección de retiro de ${d.nombre || "cliente"}`,
-        });
-        return "shared";
-      } catch (error) {
-        if ((error as DOMException).name === "AbortError") return "cancelled";
-        // Cualquier otro fallo (permiso, tiempo de activación) cae a descarga
-      }
-    }
+    return "shared";
+  } catch (error) {
+    return (error as DOMException).name === "AbortError"
+      ? "cancelled"
+      : "failed";
   }
-
-  doc.save(filename);
-  return "downloaded";
 }
 
 export async function buildRetirementReportPdf(

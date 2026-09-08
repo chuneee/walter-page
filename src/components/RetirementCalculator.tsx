@@ -1,17 +1,20 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ArrowLeft,
   Calculator,
   CheckCircle2,
   Clock,
+  Eye,
   FileDown,
   MessageCircle,
   PiggyBank,
+  Share2,
   Sparkles,
   Target,
   User,
   Wallet,
 } from "lucide-react";
+import type { GeneratedPdf } from "./retirementReportPdf";
 import { toast } from "sonner@2.0.3";
 import logoColor from "../assets/0f2bacd61666436b2144d7fb5694974b05d285a1.png";
 import { navigateTo } from "../router";
@@ -28,6 +31,15 @@ import { buildWhatsAppUrl } from "./whatsappLink";
 import { trackFbCustomEvent, trackFbEvent } from "./fbPixel";
 
 const ORANGE = "#ff6b0c";
+
+type PdfModule = typeof import("./retirementReportPdf");
+
+function isMobileDevice() {
+  return (
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent))
+  );
+}
 
 interface SliderFieldProps {
   icon: React.ReactNode;
@@ -108,12 +120,24 @@ export function RetirementCalculator() {
   const [aniosRenta, setAniosRenta] = useState(20);
   const [generando, setGenerando] = useState(false);
   const [listo, setListo] = useState(false);
+  const [pdf, setPdf] = useState<GeneratedPdf | null>(null);
+  const [movil] = useState(isMobileDevice);
+  const pdfModule = useRef<PdfModule | null>(null);
+  const resultadoRef = useRef<HTMLDivElement>(null);
 
-  // Precarga el generador del PDF: en iOS la hoja de compartir solo se
-  // puede abrir poco después del toque, así que el módulo debe estar listo.
+  // Precarga el generador del PDF para que el botón responda al instante
   useEffect(() => {
-    import("./retirementReportPdf");
+    import("./retirementReportPdf").then((m) => {
+      pdfModule.current = m;
+    });
   }, []);
+
+  // Libera la URL temporal del PDF anterior
+  useEffect(() => {
+    return () => {
+      if (pdf) URL.revokeObjectURL(pdf.url);
+    };
+  }, [pdf]);
 
   // La edad de entrega tiene que dejar al menos 10 años de aportación
   const edadEntregaEfectiva =
@@ -146,6 +170,16 @@ export function RetirementCalculator() {
       return;
     }
 
+    // En celular el PDF se abre en otra pestaña. Safari solo permite abrirla
+    // en el instante del toque, así que se abre vacía y se carga después.
+    let pestana: Window | null = null;
+    if (movil) {
+      pestana = window.open("", "_blank");
+      pestana?.document.write(
+        '<p style="font-family:sans-serif;padding:24px;color:#0d2a6e">Generando tu proyección…</p>'
+      );
+    }
+
     setGenerando(true);
     try {
       const resultados = calcularRetiro(inputs);
@@ -156,24 +190,32 @@ export function RetirementCalculator() {
         edad_entrega: edadEntregaEfectiva,
         anos_renta: aniosRenta,
       });
-      const { generateRetirementReportPdf } = await import(
-        "./retirementReportPdf"
-      );
-      const entrega = await generateRetirementReportPdf(resultados);
-      if (entrega === "cancelled") {
-        toast.info("No se envió el PDF", {
-          description: "Presiona Calcular de nuevo cuando quieras compartirlo.",
-        });
-        return;
+      const mod =
+        pdfModule.current ?? (await import("./retirementReportPdf"));
+      pdfModule.current = mod;
+      const generado = await mod.createRetirementReportPdf(resultados);
+      if (movil) {
+        if (pestana) pestana.location.href = generado.url;
+      } else {
+        mod.downloadPdf(generado);
       }
+      setPdf(generado);
       setListo(true);
       toast.success("¡Tu proyección está lista!", {
-        description:
-          entrega === "shared"
-            ? "Elige dónde guardar o enviar tu PDF."
-            : "El PDF se está descargando en tu dispositivo.",
+        description: movil
+          ? pestana
+            ? "Se abrió en una pestaña nueva. También puedes verla o compartirla aquí abajo."
+            : "Ábrela o compártela con los botones de abajo."
+          : "El PDF se está descargando en tu dispositivo.",
       });
+      setTimeout(() => {
+        resultadoRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+      }, 100);
     } catch (error) {
+      pestana?.close();
       console.error("Error al generar el PDF:", error);
       toast.error("No se pudo generar el PDF", {
         description: "Intenta de nuevo o escríbeme por WhatsApp.",
@@ -182,6 +224,20 @@ export function RetirementCalculator() {
       setGenerando(false);
     }
   };
+
+  const compartir = async () => {
+    if (!pdf || !pdfModule.current) return;
+    const r = await pdfModule.current.sharePdf(pdf);
+    if (r === "failed") {
+      pdfModule.current.downloadPdf(pdf);
+      toast.info("Tu PDF se está descargando", {
+        description: "Tu navegador no permitió abrir el menú de compartir.",
+      });
+    }
+  };
+
+  const puedeCompartir =
+    movil && pdf !== null && pdfModule.current?.canSharePdf(pdf) === true;
 
   const whatsappUrl = buildWhatsAppUrl({
     nombre,
@@ -392,30 +448,52 @@ export function RetirementCalculator() {
               : "Calcular y descargar mi PDF"}
           </button>
 
-          {listo && (
-            <div className="wv-card wv-success">
+          {listo && pdf && (
+            <div ref={resultadoRef} className="wv-card wv-success">
               <div className="wv-success-icon">
                 <CheckCircle2 className="h-8 w-8" />
               </div>
               <h3>¡Listo, {nombre.trim().split(" ")[0]}!</h3>
               <p>
-                Tu proyección se descargó en PDF. Si quieres que la revisemos
-                juntos, escríbeme por WhatsApp.
+                {movil
+                  ? "Tu proyección en PDF está lista. Ábrela para verla, guárdala o compártela, y si quieres que la revisemos juntos, escríbeme por WhatsApp."
+                  : "Tu proyección se descargó en PDF. Si quieres que la revisemos juntos, escríbeme por WhatsApp."}
               </p>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="wv-cta wv-cta-whatsapp"
-                onClick={() =>
-                  trackFbEvent("Lead", {
-                    content_name: "Asesoría por WhatsApp - Calculadora",
-                  })
-                }
-              >
-                <MessageCircle className="h-6 w-6" />
-                Pedir asesoría por WhatsApp
-              </a>
+              <div className="wv-actions">
+                <a
+                  href={pdf.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="wv-cta wv-cta-navy"
+                >
+                  <Eye className="h-6 w-6" />
+                  Ver mi PDF
+                </a>
+                {puedeCompartir && (
+                  <button
+                    type="button"
+                    onClick={compartir}
+                    className="wv-cta wv-cta-outline"
+                  >
+                    <Share2 className="h-6 w-6" />
+                    Compartir o guardar
+                  </button>
+                )}
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="wv-cta wv-cta-whatsapp"
+                  onClick={() =>
+                    trackFbEvent("Lead", {
+                      content_name: "Asesoría por WhatsApp - Calculadora",
+                    })
+                  }
+                >
+                  <MessageCircle className="h-6 w-6" />
+                  Pedir asesoría por WhatsApp
+                </a>
+              </div>
             </div>
           )}
 

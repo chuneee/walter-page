@@ -3389,3 +3389,17 @@ html {
 @media (prefers-reduced-motion: reduce) {
   .wv-whatsapp-fab-icon::before { animation: none; }
 }
+
+/* ===== Acciones tras generar el PDF ===== */
+.wv-actions > * + * { margin-top: 12px; }
+.wv-cta-navy {
+  background: #0d2a6e;
+  box-shadow: 0 12px 28px -10px rgba(13, 42, 110, 0.6);
+}
+.wv-cta-navy:hover { background: #103595; }
+.wv-cta-outline {
+  background: #fff;
+  color: #0d2a6e;
+  border: 2px solid #d1d5db;
+}
+.wv-cta-outline:hover { border-color: #0d2a6e; }
