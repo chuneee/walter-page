@@ -2,6 +2,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import advisorPhoto from "../assets/hero.jpeg";
 import { Shield, Clock, Award, CheckCircle2 } from "lucide-react";
+import { navigateTo } from "../router";
 
 export function Hero() {
   return (
@@ -84,7 +85,13 @@ export function Hero() {
                     Agenda tu asesoría gratuita
                   </Button>
                 </a>
-                <a href="#simulador">
+                <a
+                  href="/calculadora"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigateTo("/calculadora");
+                  }}
+                >
                   <Button
                     size="lg"
                     variant="outline"

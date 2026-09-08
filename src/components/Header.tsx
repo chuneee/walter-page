@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import logoWhite from "figma:asset/b78ac8ff2ad6bc40cbd2d4ea1f4f26ef70ca0e9b.png";
 import logoColor from "figma:asset/0f2bacd61666436b2144d7fb5694974b05d285a1.png";
+import { goToLandingSection, navigateTo } from "../router";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -12,7 +13,7 @@ export function Header() {
     { label: "Inicio", href: "#inicio" },
     { label: "Sobre Mí", href: "#sobre-mi" },
     { label: "Servicios", href: "#servicios" },
-    { label: "Calculadora de Retiro", href: "#simulador" },
+    { label: "Calculadora de Retiro", href: "/calculadora" },
     { label: "Beneficios", href: "#beneficios" },
     { label: "Contacto", href: "#contacto" },
   ];
@@ -33,19 +34,11 @@ export function Header() {
     e.preventDefault();
     setIsMobileMenuOpen(false);
 
-    const targetId = href.replace("#", "");
-    const element = document.getElementById(targetId);
-
-    if (element) {
-      const offset = 80; // Header height
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth",
-      });
+    if (href.startsWith("/")) {
+      navigateTo(href);
+      return;
     }
+    goToLandingSection(href.replace("#", ""));
   };
 
   return (

@@ -1,8 +1,21 @@
 import { Instagram, Mail, MapPin, Phone, Shield } from "lucide-react";
 import { motion } from "motion/react";
 import logo from "figma:asset/b78ac8ff2ad6bc40cbd2d4ea1f4f26ef70ca0e9b.png";
+import { goToLandingSection, navigateTo } from "../router";
 
 export function Footer() {
+  const handleQuickLink = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+    if (href.startsWith("/")) {
+      navigateTo(href);
+      return;
+    }
+    goToLandingSection(href.replace("#", ""));
+  };
+
   const socialLinks = [
     {
       icon: Instagram,
@@ -24,6 +37,7 @@ export function Footer() {
   const quickLinks = [
     { label: "Servicios", href: "#servicios" },
     { label: "Sobre Mí", href: "#sobre-mi" },
+    { label: "Calculadora de Retiro", href: "/calculadora" },
     { label: "Beneficios", href: "#beneficios" },
     { label: "Contacto", href: "#contacto" }
   ];
@@ -70,6 +84,7 @@ export function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
+                    onClick={(e) => handleQuickLink(e, link.href)}
                     className="text-white/70 hover:text-[#ffa400] transition-colors duration-300 text-sm flex items-center gap-2 group"
                   >
                     <span className="w-1.5 h-1.5 bg-[#ffa400] rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>

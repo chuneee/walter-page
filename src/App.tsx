@@ -6,11 +6,16 @@ import { Services } from "./components/Services";
 import { WhyChooseMe } from "./components/WhyChooseMe";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
-import { SavingsCalculator } from "./components/SavingsCalculator";
+import { CalculatorCta } from "./components/CalculatorCta";
+import { RetirementCalculator } from "./components/RetirementCalculator";
+import { WhatsAppFloat } from "./components/WhatsAppFloat";
 import { Toaster } from "sonner@2.0.3";
 import faviconImage from "figma:asset/082fe4e6830fa54464c4195a81a1641fd524c476.png";
+import { useRoute } from "./router";
 
 export default function App() {
+  const path = useRoute();
+
   // Set favicon
   useEffect(() => {
     const link =
@@ -21,6 +26,16 @@ export default function App() {
     link.href = faviconImage;
     document.getElementsByTagName("head")[0].appendChild(link);
   }, []);
+
+  if (path === "/calculadora") {
+    return (
+      <>
+        <Toaster position="top-right" richColors />
+        <RetirementCalculator />
+        <WhatsAppFloat />
+      </>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white">
@@ -37,7 +52,7 @@ export default function App() {
       </section>
 
       <section id="simulador">
-        <SavingsCalculator />
+        <CalculatorCta />
       </section>
 
       <section id="beneficios">
@@ -48,6 +63,7 @@ export default function App() {
         <Contact />
       </section>
       <Footer />
+      <WhatsAppFloat />
     </div>
   );
 }
