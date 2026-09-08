@@ -50,10 +50,45 @@ function slug(text: string) {
     .toLowerCase();
 }
 
-export async function generateRetirementReportPdf(d: RetirementResults) {
+export type PdfDeliveryResult = "shared" | "downloaded" | "cancelled";
+
+function isMobileDevice() {
+  return (
+    /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    (navigator.maxTouchPoints > 1 && /Macintosh/.test(navigator.userAgent))
+  );
+}
+
+// En celular usamos la hoja nativa de compartir (WhatsApp, Archivos, etc.):
+// descargar un blob desde JavaScript en iOS abre el PDF en una pestaña con
+// una URL "blob:" que luego se cuela como texto al compartirlo.
+export async function generateRetirementReportPdf(
+  d: RetirementResults
+): Promise<PdfDeliveryResult> {
   const doc = await buildRetirementReportPdf(d);
-  const nombre = slug(d.nombre) || "cliente";
-  doc.save(`proyeccion-retiro-${nombre}.pdf`);
+  const filename = `proyeccion-retiro-${slug(d.nombre) || "cliente"}.pdf`;
+
+  if (isMobileDevice() && typeof navigator.share === "function") {
+    const file = new File([doc.output("blob")], filename, {
+      type: "application/pdf",
+    });
+    if (!navigator.canShare || navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({
+          files: [file],
+          title: "Proyección de retiro",
+          text: `Proyección de retiro de ${d.nombre || "cliente"}`,
+        });
+        return "shared";
+      } catch (error) {
+        if ((error as DOMException).name === "AbortError") return "cancelled";
+        // Cualquier otro fallo (permiso, tiempo de activación) cae a descarga
+      }
+    }
+  }
+
+  doc.save(filename);
+  return "downloaded";
 }
 
 export async function buildRetirementReportPdf(

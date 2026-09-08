@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ArrowLeft,
   Calculator,
@@ -109,6 +109,12 @@ export function RetirementCalculator() {
   const [generando, setGenerando] = useState(false);
   const [listo, setListo] = useState(false);
 
+  // Precarga el generador del PDF: en iOS la hoja de compartir solo se
+  // puede abrir poco después del toque, así que el módulo debe estar listo.
+  useEffect(() => {
+    import("./retirementReportPdf");
+  }, []);
+
   // La edad de entrega tiene que dejar al menos 10 años de aportación
   const edadEntregaEfectiva =
     edadActual + LIMITES.aniosAportando.min > edadEntrega ? 65 : edadEntrega;
@@ -153,10 +159,19 @@ export function RetirementCalculator() {
       const { generateRetirementReportPdf } = await import(
         "./retirementReportPdf"
       );
-      await generateRetirementReportPdf(resultados);
+      const entrega = await generateRetirementReportPdf(resultados);
+      if (entrega === "cancelled") {
+        toast.info("No se envió el PDF", {
+          description: "Presiona Calcular de nuevo cuando quieras compartirlo.",
+        });
+        return;
+      }
       setListo(true);
       toast.success("¡Tu proyección está lista!", {
-        description: "El PDF se está descargando en tu dispositivo.",
+        description:
+          entrega === "shared"
+            ? "Elige dónde guardar o enviar tu PDF."
+            : "El PDF se está descargando en tu dispositivo.",
       });
     } catch (error) {
       console.error("Error al generar el PDF:", error);
