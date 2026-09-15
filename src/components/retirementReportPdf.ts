@@ -15,6 +15,8 @@ const NAVY = "#0d2a6e";
 const NAVY_SOFT = "#163a86";
 const BLUE = "#103595";
 const ORANGE = "#ff6b0c";
+const CALENDLY_URL =
+  "https://calendly.com/waltervaldezconsultor/asesoria-personalizada-1";
 const ORANGE_DARK = "#c93b09";
 const GOLD = "#d9a520";
 const GRAY_TEXT = "#5a6472";
@@ -254,7 +256,7 @@ export async function buildRetirementReportPdf(
   doc.setFontSize(8.5);
   doc.setTextColor(GRAY_TEXT);
   const capSub = doc.splitTextToSize(
-    `Capital proyectado a los ${d.edadEntrega} años bajo escenario ilustrativo. Aportas hasta los ${d.edadFinAportaciones} años${
+    `Capital proyectado a los ${d.edadEntrega} años bajo escenario ilustrativo (${TASA_ACUMULACION}% anual). Aportas hasta los ${d.edadFinAportaciones} años${
       extra > 0 ? ` y el fondo sigue creciendo ${extra} años más.` : "."
     }`,
     W - 40
@@ -410,37 +412,25 @@ export async function buildRetirementReportPdf(
   });
   y += 24;
 
-  // CTA + WhatsApp
+  // Dos botones: agendar cita (Calendly) + WhatsApp
   const ctaH = 104;
-  const ctaLeftW = W * 0.58;
-  doc.setFillColor(CARD_BG);
-  doc.setDrawColor(BORDER);
-  doc.setLineWidth(0.8);
-  doc.roundedRect(M, y, ctaLeftW, ctaH, 8, 8, "FD");
+  const ctaLeftW = (W - 12) / 2;
   doc.setFillColor(ORANGE);
-  doc.rect(M, y + 10, 4, ctaH - 20, "F");
+  doc.roundedRect(M, y, ctaLeftW, ctaH, 8, 8, "F");
+  doc.setFillColor("#ffffff");
+  doc.circle(M + 26, y + 30, 9, "F");
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(12);
-  doc.setTextColor(NAVY);
-  doc.text(
-    doc.splitTextToSize(
-      "El siguiente paso es aterrizarlo a tu estrategia.",
-      ctaLeftW - 36
-    ),
-    M + 18,
-    y + 26
-  );
+  doc.setFontSize(7);
+  doc.setTextColor("#ffe3cf");
+  doc.text("AGENDA EN LÍNEA", M + 42, y + 26, { charSpace: 0.5 });
+  doc.setFontSize(11.5);
+  doc.setTextColor("#ffffff");
+  doc.text(doc.splitTextToSize("Agendar una cita", ctaLeftW - 32), M + 16, y + 56);
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(8.5);
-  doc.setTextColor(GRAY_TEXT);
-  doc.text(
-    doc.splitTextToSize(
-      "La proyección sirve como punto de partida. En asesoría podemos revisar plazo, aportación y estructura para construir una alternativa adecuada a tu objetivo de retiro.",
-      ctaLeftW - 36
-    ),
-    M + 18,
-    y + 60
-  );
+  doc.setFontSize(8);
+  doc.setTextColor("#fff1e8");
+  doc.text("Toca aquí y elige el día y la hora", M + 16, y + 88);
+  doc.link(M, y, ctaLeftW, ctaH, { url: CALENDLY_URL });
 
   const waX = M + ctaLeftW + 12;
   const waW = W - ctaLeftW - 12;
